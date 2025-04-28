@@ -295,28 +295,45 @@ void CheckWild(Deck** playerList, int numPlayers, Deck* deck, Deck* discard, cha
                 } while(junk != '\n');
             } while (numRead != 1 || userChoice < 1 || userChoice > 4);
         } else {
-            userChoice = rand() % 4;
-            switch (userChoice) {
-                case 1:
-                    strcpy(chosenColor, "red");
-                    printf("Player %d chose ", *curPlayer+1);
-                    printf(RED "%s\n" RESET, chosenColor);
-                    break;
-                case 2:
-                    strcpy(chosenColor, "yellow");
-                    printf("Player %d chose ", *curPlayer+1);
-                    printf(YELLOW "%s\n" RESET, chosenColor);
-                    break;
-                case 3:
-                    strcpy(chosenColor, "green");
-                    printf("Player %d chose ", *curPlayer+1);
-                    printf(GREEN "%s\n" RESET, chosenColor);
-                    break;
-                case 4:
-                    strcpy(chosenColor, "blue");
-                    printf("Player %d chose ", *curPlayer+1);
-                    printf(BLUE "%s\n" RESET, chosenColor);
-                    break;
+
+            // Smart selection using weighted random selection
+            // Initialize card color counts
+            int redCards = 0;
+            int yellowCards = 0;
+            int greenCards = 0;
+            int blueCards = 0;
+
+            // Scan the hand for the number of colors of cards
+            for (int i = 0; i < playerList[*curPlayer]->size; i++) {
+                if (strcmp(playerList[*curPlayer]->cards[i].color, "red")) {
+                    redCards++;
+                } else if (strcmp(playerList[*curPlayer]->cards[i].color, "yellow")) {
+                    yellowCards++;
+                } else if (strcmp(playerList[*curPlayer]->cards[i].color, "green")) {
+                    greenCards++;
+                } else if (strcmp(playerList[*curPlayer]->cards[i].color, "blue")) {
+                    blueCards++;
+                }
+            }
+
+            // Choose a weighted random color
+            userChoice = rand() % (redCards + yellowCards + greenCards + blueCards);
+            if (userChoice < redCards) {
+                strcpy(chosenColor, "red");
+                printf("Player %d chose ", *curPlayer+1);
+                printf(RED "%s\n" RESET, chosenColor);
+            } else if (userChoice < redCards + yellowCards) {
+                strcpy(chosenColor, "yellow");
+                printf("Player %d chose ", *curPlayer+1);
+                printf(YELLOW "%s\n" RESET, chosenColor);
+            } else if (userChoice < redCards + yellowCards + greenCards) {
+                strcpy(chosenColor, "green");
+                printf("Player %d chose ", *curPlayer+1);
+                printf(GREEN "%s\n" RESET, chosenColor);
+            } else {
+                strcpy(chosenColor, "blue");
+                printf("Player %d chose ", *curPlayer+1);
+                printf(BLUE "%s\n" RESET, chosenColor);
             }
         }
     }
