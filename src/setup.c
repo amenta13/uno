@@ -81,6 +81,7 @@ void CreateDeck (Deck* deck) {
 }
 
 void Shuffle (Deck* deck) {
+    // Using Fisher-Yates Shuffle technique
     for (int i = deck->size - 1; i > 0; i--) {
         int j = rand() % (i + 1);
         Card temp = deck->cards[i];
