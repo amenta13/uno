@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
 #include "setup.h"
 #include "play.h"
 
@@ -141,8 +142,10 @@ int main(void) {
             playerDrew = HumanTurn(playerHands, numPlayers, playerHands[curPlayer], unoDeck, discardPile, chosenColor);
         } else {
             playerDrew = ComputerTurn(numPlayers, playerHands[curPlayer], unoDeck, discardPile, chosenColor, &curPlayer);
+            Sleep(1000);       // Pauses program for 1000 milliseconds
         }
 
+        // Change to make the player type UNO
         if (playerHands[curPlayer]->size == 1) {
             printf("Player %d has UNO!\n", curPlayer+1);
         }
@@ -162,6 +165,7 @@ int main(void) {
         // Reveal the number of cards the computer player has
         if (curPlayer != 0) {
             printf("Player %d has %d cards in their hand\n", curPlayer+1, playerHands[curPlayer]->size);
+            Sleep(1000);       // Pauses program for 1000 milliseconds
         }
 
         // Move to next player
