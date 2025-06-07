@@ -5,6 +5,8 @@
  *  Purpose: Make the structures and header functions related to setting up the card game UNO
  */
 
+#include <windows.h>
+
 typedef struct Card_Struct {
     char color[7];
     int num;
@@ -20,3 +22,4 @@ void CreateDeck (Deck* deck);
 void Shuffle (Deck* deck);
 void StartGame();
 void PrintCard(Card card);
+DWORD WINAPI InputThread(LPVOID userInput);

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
 #include "setup.h"
 #include "play.h"
 
@@ -176,4 +177,11 @@ void PrintCard(Card card) {
     } else {
         printf("%s %d", card.color, card.num); // fallback
     }
+}
+
+// Thread function for reading user input
+DWORD WINAPI InputThread(LPVOID userInput) {
+    char *buffer = (char*)userInput;
+    fgets(buffer, 25, stdin);
+    return 0;
 }
