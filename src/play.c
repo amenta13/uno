@@ -105,6 +105,9 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
             printf("Invalid input\n");
         } else if (userChoice == 0) {
             DrawCard(numPlayers, playerHand, deck, discard);
+
+            // INSERT PLAYING CARD IF DRAWN CARD IS VALID
+
             printf("You drew a card\n");
             validTurn = 1;
             return 1;
