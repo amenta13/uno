@@ -31,7 +31,6 @@ int main(void) {
     int curPlayer;
     int minTime = 3000;
     int maxTime = 5000;
-    char buffer[25];
     char chosenColor[7];
 
     // Create Deck
@@ -152,39 +151,25 @@ int main(void) {
         // Change to make the player type UNO
         if (playerHands[curPlayer]->size == 1) {
             if (curPlayer == 0) {
-                // Generate random time between 3000 and 5000 milliseconds
-                DWORD timeOut = minTime + rand() % (maxTime - minTime + 1000);
-
-                // Create thread for input
-                HANDLE thread = CreateThread(NULL, 0, InputThread, buffer, 0, NULL);
-                if (thread == NULL) {
-                    fprintf(stderr, "Failed to create thread. \n");
-                    return 1;
-                }
+                DWORD timeOut = minTime + rand() % (maxTime - minTime);
                 
-                // Prompt user and flush
-                printf("You have one card left. Quickly type 'UNO' and press the 'ENTER' key!");
-                fflush(stdout);
+                char buffer[25];
 
-                // Wait for input or timeout
-                DWORD result = WaitForSingleObject(thread, timeOut);
-
-                if (result == WAIT_OBJECT_0) {
-                    buffer[strcspn(buffer, "\n")] = 0;  // Remove newline
+                if (TimedInput(buffer, sizeof(buffer), timeOut)) {
                     for (int i = 0; buffer[i]; i++) {
                         buffer[i] = tolower((unsigned char)buffer[i]);
                     }
 
                     if (!strcmp(buffer, "uno")) {
-                        printf("You said UNO!\n");
+                        printf("\nYou said UNO in time!\n");
                     } else {
-                        printf("You didn't say UNO!\n");
+                        printf("\nYou did not say UNO!\n");
+                        DrawCard(numPlayers, playerHands[curPlayer], unoDeck, discardPile);
                     }
                 } else {
-                    printf("You didn't say UNO in time!\n");
-                    TerminateThread(thread, 0);
+                    printf("\nYou did not say UNO in time!\n");
+                    DrawCard(numPlayers, playerHands[curPlayer], unoDeck, discardPile);
                 }
-                CloseHandle(thread);
             }
             printf("Player %d has UNO!\n", curPlayer+1);
         }

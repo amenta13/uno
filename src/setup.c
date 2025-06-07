@@ -179,9 +179,63 @@ void PrintCard(Card card) {
     }
 }
 
-// Thread function for reading user input
-DWORD WINAPI InputThread(LPVOID userInput) {
-    char *buffer = (char*)userInput;
-    fgets(buffer, 25, stdin);
-    return 0;
+// Timed input function
+int TimedInput(char *buffer, size_t bufsize, DWORD timeOut) {
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+
+    if (hInput == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "Error getting console input handle.\n");
+        return 0;
+    }
+
+    DWORD mode;
+    GetConsoleMode(hInput, &mode);
+    SetConsoleMode(hInput, mode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT));
+
+    DWORD startTime = GetTickCount();
+
+    size_t pos = 0;
+    buffer[0] = '\0';
+
+    printf("You have one card left. Quickly type 'UNO' and hit the 'ENTER' key: ");
+    fflush(stdout);
+
+    while (GetTickCount() - startTime < timeOut && pos < bufsize - 1) {
+        DWORD numEvents = 0;
+        GetNumberOfConsoleInputEvents(hInput, &numEvents);
+
+        if (numEvents > 0) {
+            INPUT_RECORD record;
+            DWORD eventsRead = 0;
+            ReadConsoleInput(hInput, &record, 1, &eventsRead);
+
+            if (record.EventType == KEY_EVENT && record.Event.KeyEvent.bKeyDown) {
+                CHAR userChar = record.Event.KeyEvent.uChar.AsciiChar;
+
+                if (userChar == '\r') {  // Enter key
+                    break;
+                } else if (userChar == '\b') {  // Backspace
+                    if (pos > 0) {
+                        pos--;
+                        buffer[pos] = '\0';
+                        printf("\b \b");
+                        fflush(stdout);
+                    }
+                } else if (userChar >= 32 && userChar < 127) {  // Printable character
+                    buffer[pos++] = userChar;
+                    buffer[pos] = '\0';
+                    putchar(userChar);
+                    fflush(stdout);
+                }
+            }
+        } else {
+            Sleep(10);  // Avoid busy waiting
+        }
+    }
+
+    SetConsoleMode(hInput, mode);  // Restore console mode
+    printf("\n");
+
+    // Return 1 if user entered anything, 0 if timeout
+    return (buffer[0] != '\0');
 }

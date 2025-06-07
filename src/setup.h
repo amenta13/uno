@@ -22,4 +22,4 @@ void CreateDeck (Deck* deck);
 void Shuffle (Deck* deck);
 void StartGame();
 void PrintCard(Card card);
-DWORD WINAPI InputThread(LPVOID userInput);
+int TimedInput(char *buffer, size_t bufsize, DWORD timeOut);
