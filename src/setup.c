@@ -180,7 +180,7 @@ void PrintCard(Card card) {
 }
 
 // Timed input function
-int TimedInput(char *buffer, size_t bufsize, DWORD timeOut) {
+int TimedInput(char *buffer, size_t bufsize, DWORD timeOut, int curPlayer) {
     HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
 
     if (hInput == INVALID_HANDLE_VALUE) {
@@ -197,7 +197,7 @@ int TimedInput(char *buffer, size_t bufsize, DWORD timeOut) {
     size_t pos = 0;
     buffer[0] = '\0';
 
-    printf("You have one card left. Quickly type 'UNO' and hit the 'ENTER' key: ");
+    printf("Player %d has one card left. Quickly type 'UNO' and hit the 'ENTER' key: ", curPlayer);
     fflush(stdout);
 
     while (GetTickCount() - startTime < timeOut && pos < bufsize - 1) {

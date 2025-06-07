@@ -148,30 +148,44 @@ int main(void) {
             Sleep(1000);       // Pauses program for 1000 milliseconds
         }
 
-        // Change to make the player type UNO
+        // Check if the player has UNO
         if (playerHands[curPlayer]->size == 1) {
-            if (curPlayer == 0) {
-                DWORD timeOut = minTime + rand() % (maxTime - minTime);
-                
-                char buffer[25];
 
-                if (TimedInput(buffer, sizeof(buffer), timeOut)) {
-                    for (int i = 0; buffer[i]; i++) {
-                        buffer[i] = tolower((unsigned char)buffer[i]);
-                    }
+            // Give player time to say UNO accordingly
+            if (curPlayer) {
+                minTime = 0;
+                maxTime = 2000;
+            } else {
+                minTime = 3000;
+                maxTime = 5000;
+            }
+            
+            DWORD timeOut = minTime + rand() % (maxTime - minTime);
+            
+            char buffer[25];
 
-                    if (!strcmp(buffer, "uno")) {
-                        printf("\nYou said UNO in time!\n");
-                    } else {
-                        printf("\nYou did not say UNO!\n");
+            if (TimedInput(buffer, sizeof(buffer), timeOut, curPlayer)) {
+                for (int i = 0; buffer[i]; i++) {
+                    buffer[i] = tolower((unsigned char)buffer[i]);
+                }
+
+                if (!strcmp(buffer, "uno")) {
+                    printf("\nYou said UNO in time!\n");
+                    if (curPlayer) {
                         DrawCard(numPlayers, playerHands[curPlayer], unoDeck, discardPile);
                     }
                 } else {
-                    printf("\nYou did not say UNO in time!\n");
+                    printf("\nYou did not say UNO!\n");
+                    if (!curPlayer) {
+                        DrawCard(numPlayers, playerHands[curPlayer], unoDeck, discardPile);
+                    } 
+                }
+            } else {
+                printf("\nYou did not say UNO in time!\n");
+                if (!curPlayer) {
                     DrawCard(numPlayers, playerHands[curPlayer], unoDeck, discardPile);
                 }
             }
-            printf("Player %d has UNO!\n", curPlayer+1);
         }
 
         if (playerHands[curPlayer]->size == 0) {
