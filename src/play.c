@@ -92,6 +92,7 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
     printf("\n");
 
     int validTurn = 0;
+    int validDraw = 0;
 
     do {
         // Prompt user for their turn
@@ -105,10 +106,13 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
             printf("Invalid input\n");
         } else if (userChoice == 0) {
             DrawCard(numPlayers, playerHand, deck, discard);
+            printf("You drew a ");
+            PrintCard(playerHand->cards[playerHand->size-1]);
+            printf("\n");
 
-            // INSERT PLAYING CARD IF DRAWN CARD IS VALID
+            // Check if drawn card is valid to play
+            validDraw = CheckCard(playerHand->cards[playerHand->size-1], &discard->cards[discard->size-1], chosenColor);
 
-            printf("You drew a card\n");
             validTurn = 1;
             return 1;
         } else {
