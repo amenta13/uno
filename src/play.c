@@ -92,7 +92,8 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
     printf("\n");
 
     int validTurn = 0;
-    int validDraw = 0;
+    char userYN;
+    int junkClear = 0;
 
     do {
         // Prompt user for their turn
@@ -111,7 +112,37 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
             printf("\n");
 
             // Check if drawn card is valid to play
-            validDraw = CheckCard(playerHand->cards[playerHand->size-1], &discard->cards[discard->size-1], chosenColor);
+            if (CheckCard(&playerHand->cards[playerHand->size-1], &discard->cards[discard->size-1], chosenColor)) {
+
+                do {
+                    printf("Do you want to play the ");
+                    PrintCard(playerHand->cards[playerHand->size-1]);
+                    printf("? (Y/N): ");
+
+                    numRead = scanf(" %c", &userYN);
+                    userYN = tolower(userYN);
+                    junkClear = 0;
+
+                    do {
+                        scanf("%c", &junk);
+                        junkClear++;
+                    } while (junk != '\n');
+
+                    if (numRead != 1) {
+                        printf("Invalid input\n");
+                    } else if (userYN != 'y' && userYN != 'n') {
+                        printf("Invalid input\n");
+                    } else if (junkClear > 1) {
+                        printf("Invalid input\n");
+                    }
+
+                } while (numRead != 1 || (userYN != 'y' && userYN != 'n') || junkClear > 1);
+            }
+
+            // Play drawn card if the anser is "Y"
+            if (userYN == 'y') {
+                PlayCard(playerHand, discard, userChoice-1, chosenColor);
+            }
 
             validTurn = 1;
             return 1;
