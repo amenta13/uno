@@ -142,6 +142,7 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
             // Play drawn card if the anser is "Y"
             if (userYN == 'y') {
                 PlayCard(playerHand, discard, playerHand->size-1, chosenColor);
+                return 0;
             }
 
             validTurn = 1;
@@ -199,6 +200,7 @@ int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, ch
             printf("Player %d played: ", *curPlayer+1);
             PrintCard(discard->cards[discard->size-1]);
             printf("\n");
+            return 0;
         }
         return 1;
     }
@@ -294,7 +296,7 @@ void CheckWild(Deck** playerList, int numPlayers, Deck* deck, Deck* discard, cha
     char junk;
 
     // Check if played card is a wild
-    if (!strcmp(discard->cards[discard->size-1].color, "black") && playerDrew == 0) {
+    if (!strcmp(discard->cards[discard->size-1].color, "black") && !playerDrew) {
         // If human, prompt for color
         if (*curPlayer == 0) {
             do {
@@ -385,7 +387,7 @@ void CheckWild(Deck** playerList, int numPlayers, Deck* deck, Deck* discard, cha
     }
 
     // Check if it is a +4 wild
-    if (discard->cards[discard->size-1].num == 14) {
+    if (discard->cards[discard->size-1].num == 14 && !playerDrew) {
 
         // Reveal the number of cards the computer player has
         if (curPlayer != 0) {
