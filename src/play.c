@@ -141,7 +141,7 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
 
             // Play drawn card if the anser is "Y"
             if (userYN == 'y') {
-                PlayCard(playerHand, discard, userChoice-1, chosenColor);
+                PlayCard(playerHand, discard, playerHand->size-1, chosenColor);
             }
 
             validTurn = 1;
@@ -192,6 +192,14 @@ int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, ch
         // Draw a card if no valid cards are found
         DrawCard(numPlayers, playerHand, deck, discard);
         printf("Player %d drew a card\n", *curPlayer+1);
+
+        // Play card if the card can be played
+        if (CheckCard(&playerHand->cards[playerHand->size-1], &discard->cards[discard->size-1], chosenColor)) {
+            PlayCard(playerHand, discard, playerHand->size-1, chosenColor);
+            printf("Player %d played: ", *curPlayer+1);
+            PrintCard(discard->cards[discard->size-1]);
+            printf("\n");
+        }
         return 1;
     }
 }
