@@ -164,6 +164,7 @@ int main(void) {
             
             char buffer[25];
 
+            // Prompt user to say UNO
             if (TimedInput(buffer, sizeof(buffer), timeOut, curPlayer)) {
                 for (int i = 0; buffer[i]; i++) {
                     buffer[i] = tolower((unsigned char)buffer[i]);
@@ -188,6 +189,7 @@ int main(void) {
             }
         }
 
+        // Check if a player won
         if (playerHands[curPlayer]->size == 0) {
             printf("Player %d wins!\n", curPlayer+1);
             gameOver = 1;

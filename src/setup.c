@@ -27,6 +27,7 @@
  * Total of 108 cards
  */
 
+ // Create initial cards
 Card CreateCard (Card card, int i, int j) {
     // Assign color to card
     switch (i) {
@@ -51,6 +52,7 @@ Card CreateCard (Card card, int i, int j) {
     return card;
 }
 
+// Create initial deck
 void CreateDeck (Deck* deck) {
     deck->size = 108;
     int numCard = 0;
@@ -81,6 +83,7 @@ void CreateDeck (Deck* deck) {
     }
 }
 
+// Shuffle deck
 void Shuffle (Deck* deck) {
     // Using Fisher-Yates Shuffle technique
     for (int i = deck->size - 1; i > 0; i--) {
@@ -92,6 +95,7 @@ void Shuffle (Deck* deck) {
     printf("Deck Shuffled!\n");
 }
 
+// Print welcome screen
 void StartGame() {
     printf("\n");
     printf(RED    "=====================================\n");
@@ -111,6 +115,7 @@ void StartGame() {
     } while (junk != '\n');
 }
 
+// Print out a card using text color
 void PrintCard(Card card) {
     // Check card color
     if (!strcmp(card.color, "red")) {

@@ -46,6 +46,7 @@ void DrawCard(int numPlayers, Deck* player, Deck* deck, Deck* discard) {
     player->size++;
 }
 
+// Recreate deck based on what is in the discard pile (excluding top card)
 void RebuildDeck(int numPlayers, Deck* deck, Deck* discard) {
     // Check discard pile
     if (discard->size <= 1) {
@@ -77,6 +78,7 @@ void RebuildDeck(int numPlayers, Deck* deck, Deck* discard) {
     discard->size = 1;
 }
 
+// Perform turn for Human
 int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor) {
     int userChoice;
     int numRead;
@@ -122,7 +124,7 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
                     numRead = scanf(" %c", &userYN);
                     userYN = tolower(userYN);
                     junkClear = 0;
-
+                    
                     do {
                         scanf("%c", &junk);
                         junkClear++;
@@ -165,6 +167,7 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
     return 0;
 }
 
+// Perform turn for Computer
 int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor, int * curPlayer) {
     int validIndices[playerHand->size];
     int validCount = 0;
@@ -206,6 +209,7 @@ int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, ch
     }
 }
 
+// Check if card is valid to play
 int CheckCard(Card* userCard, Card* inPlay, char* chosenColor) {
     if (!strcmp(userCard->color, inPlay->color) || userCard->num == inPlay->num || !strcmp(userCard->color, "black")) {
         return 1;
@@ -216,6 +220,7 @@ int CheckCard(Card* userCard, Card* inPlay, char* chosenColor) {
     }
 }
 
+// Play a card
 void PlayCard(Deck* playerHand, Deck* discard, int cardIndex, char* chosenColor) {
     // Move card from the player's hand to the discard pile
     Card playedCard = playerHand->cards[cardIndex];
@@ -238,6 +243,7 @@ void PlayCard(Deck* playerHand, Deck* discard, int cardIndex, char* chosenColor)
     }
 }
 
+// Check for "Skip" card
 void CheckSkip(int numPlayers, Deck* discard, int* curPlayer, int* direction, int playerDrew) {
     // Check if played card is a skip
     if (discard->cards[discard->size-1].num == 10 && !playerDrew) {
@@ -254,6 +260,7 @@ void CheckSkip(int numPlayers, Deck* discard, int* curPlayer, int* direction, in
     }    
 }
 
+// Check for "+2" card
 void CheckDraw2(Deck** playerList, int numPlayers, Deck* deck, Deck* discard,int* curPlayer, int* direction, int playerDrew) {
     // Check if played card is a +2
     if (discard->cards[discard->size-1].num == 11 && !playerDrew) {
@@ -280,6 +287,7 @@ void CheckDraw2(Deck** playerList, int numPlayers, Deck* deck, Deck* discard,int
     }    
 }
 
+// Check for "Reverse" card
 void CheckReverse(int numPlayers, Deck* discard, int* direction, int playerDrew) {
 
     // Check if played card is a reverse
@@ -290,6 +298,7 @@ void CheckReverse(int numPlayers, Deck* discard, int* direction, int playerDrew)
     }
 }
 
+// Check for "Wild" of "+4 Wild" card
 void CheckWild(Deck** playerList, int numPlayers, Deck* deck, Deck* discard, char* chosenColor, int* curPlayer, int* direction, int playerDrew) {
     int userChoice;
     int numRead;

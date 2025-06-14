@@ -7,6 +7,7 @@
 
 #include <windows.h>
 
+// Structures
 typedef struct Card_Struct {
     char color[7];
     int num;
@@ -17,6 +18,7 @@ typedef struct Deck_Struct {
     int size;
 } Deck;
 
+// Function headers
 Card CreateCard (Card card, int i, int j);
 void CreateDeck (Deck* deck);
 void Shuffle (Deck* deck);
