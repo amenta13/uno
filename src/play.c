@@ -168,7 +168,7 @@ int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, 
 }
 
 // Perform turn for Computer
-int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor, int * curPlayer) {
+int ComputerTurn(Deck** playerList, int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor, int * curPlayer, int direction) {
     int validIndices[playerHand->size];
     int validCount = 0;
 
@@ -180,18 +180,39 @@ int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, ch
         }
     }
 
-    // Randomly choose one of the valid cards to play
+    // Choose one of the valid cards to play
     if (validCount > 0) {
-        // Randomly choose a valid card to play
-        int randCard = rand() % validCount;  // Get a random index from valid cards
 
-        // Play the randomly chosen valid card
-        int cardIndex = validIndices[randCard];
-        PlayCard(playerHand, discard, cardIndex, chosenColor);
-        printf("Player %d played: ", *curPlayer+1);
-        PrintCard(discard->cards[discard->size-1]);
-        printf("\n");
-        return 0;
+        // Chooses to play special cards if the next player is getting too low on cards
+        if  (playerList[((*curPlayer) + direction) % numPlayers]->size < 3) {
+
+            // Play special cards in order of: +4 wild, +2, skip, reverse, wild
+            int specialArr[5] = {14, 11, 10, 12, 13};
+
+            for (int a = 0; a < 5; a++) {
+                for (int i = 0; i < validCount; i++) {
+                    if (playerHand->cards[validIndices[i]].num == specialArr[a]) {
+                        PlayCard(playerHand, discard, validIndices[i], chosenColor);
+                        printf("Player %d played: ", *curPlayer+1);
+                        PrintCard(discard->cards[discard->size-1]);
+                        printf("\n");
+                        return 0;
+                    }
+                }
+            }
+
+        } else {
+            // Randomly choose a valid card to play
+            int randCard = rand() % validCount;  // Get a random index from valid cards
+
+            // Play the randomly chosen valid card
+            int cardIndex = validIndices[randCard];
+            PlayCard(playerHand, discard, cardIndex, chosenColor);
+            printf("Player %d played: ", *curPlayer+1);
+            PrintCard(discard->cards[discard->size-1]);
+            printf("\n");
+            return 0;
+        }
     } else {
         // Draw a card if no valid cards are found
         DrawCard(numPlayers, playerHand, deck, discard);
@@ -207,6 +228,7 @@ int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, ch
         }
         return 1;
     }
+    return 1;
 }
 
 // Check if card is valid to play

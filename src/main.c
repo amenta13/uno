@@ -144,7 +144,7 @@ int main(void) {
         if (curPlayer == 0) {
             playerDrew = HumanTurn(playerHands, numPlayers, playerHands[curPlayer], unoDeck, discardPile, chosenColor);
         } else {
-            playerDrew = ComputerTurn(numPlayers, playerHands[curPlayer], unoDeck, discardPile, chosenColor, &curPlayer);
+            playerDrew = ComputerTurn(playerHands, numPlayers, playerHands[curPlayer], unoDeck, discardPile, chosenColor, &curPlayer, direction);
             Sleep(1000);       // Pauses program for 1000 milliseconds
         }
 

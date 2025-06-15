@@ -9,7 +9,7 @@
  void DrawCard(int numPlayers, Deck* player, Deck* deck, Deck* discard);
  void RebuildDeck(int numPlayers, Deck* deck, Deck* discard);
  int HumanTurn(Deck** playerList,  int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor);
- int ComputerTurn(int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor, int * curPlayer);
+ int ComputerTurn(Deck** playerList, int numPlayers, Deck* playerHand, Deck* deck, Deck* discard, char* chosenColor, int * curPlayer, int direction);
  int CheckCard(Card* userCard, Card* inPlay, char* chosenColor);
  void PlayCard(Deck* playerHand, Deck* discard, int cardIndex, char* chosenColor);
  void CheckSkip(int numPlayers, Deck* discard,int* curPlayer, int* direction, int playerDrew);
