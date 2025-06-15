@@ -362,13 +362,13 @@ void CheckWild(Deck** playerList, int numPlayers, Deck* deck, Deck* discard, cha
 
             // Scan the hand for the number of colors of cards
             for (int i = 0; i < playerList[*curPlayer]->size; i++) {
-                if (strcmp(playerList[*curPlayer]->cards[i].color, "red")) {
+                if (!strcmp(playerList[*curPlayer]->cards[i].color, "red")) {
                     redCards++;
-                } else if (strcmp(playerList[*curPlayer]->cards[i].color, "yellow")) {
+                } else if (!strcmp(playerList[*curPlayer]->cards[i].color, "yellow")) {
                     yellowCards++;
-                } else if (strcmp(playerList[*curPlayer]->cards[i].color, "green")) {
+                } else if (!strcmp(playerList[*curPlayer]->cards[i].color, "green")) {
                     greenCards++;
-                } else if (strcmp(playerList[*curPlayer]->cards[i].color, "blue")) {
+                } else if (!strcmp(playerList[*curPlayer]->cards[i].color, "blue")) {
                     blueCards++;
                 }
             }
