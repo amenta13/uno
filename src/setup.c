@@ -186,17 +186,19 @@ void PrintCard(Card card) {
 
 // Timed input function
 int TimedInput(char *buffer, size_t bufsize, DWORD timeOut, int curPlayer) {
+    // Get keyboard
     HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
-
     if (hInput == INVALID_HANDLE_VALUE) {
         fprintf(stderr, "Error getting console input handle.\n");
         return 0;
     }
 
+    // Disable line input and echo input
     DWORD mode;
     GetConsoleMode(hInput, &mode);
     SetConsoleMode(hInput, mode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT));
 
+    // Get time
     DWORD startTime = GetTickCount();
 
     size_t pos = 0;
@@ -209,6 +211,7 @@ int TimedInput(char *buffer, size_t bufsize, DWORD timeOut, int curPlayer) {
         DWORD numEvents = 0;
         GetNumberOfConsoleInputEvents(hInput, &numEvents);
 
+        // Check for keyboard events
         if (numEvents > 0) {
             INPUT_RECORD record;
             DWORD eventsRead = 0;
@@ -217,16 +220,16 @@ int TimedInput(char *buffer, size_t bufsize, DWORD timeOut, int curPlayer) {
             if (record.EventType == KEY_EVENT && record.Event.KeyEvent.bKeyDown) {
                 CHAR userChar = record.Event.KeyEvent.uChar.AsciiChar;
 
-                if (userChar == '\r') {  // Enter key
+                if (userChar == '\r') {  //Enter key -> exit
                     break;
-                } else if (userChar == '\b') {  // Backspace
+                } else if (userChar == '\b') {  // Backspace -> delete from buffer
                     if (pos > 0) {
                         pos--;
                         buffer[pos] = '\0';
                         printf("\b \b");
                         fflush(stdout);
                     }
-                } else if (userChar >= 32 && userChar < 127) {  // Printable character
+                } else if (userChar >= 32 && userChar < 127) {  // Printable character -> add to buffer
                     buffer[pos++] = userChar;
                     buffer[pos] = '\0';
                     putchar(userChar);
