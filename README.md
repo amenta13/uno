@@ -11,11 +11,11 @@ The game follows the classic rules of UNO. A special ruleset may be added in the
 
 ### How To Play:
 - First choose how many players (currently supporting up to 4 total players, you included!)
-- The game will choose a random player to begin the game.
-- Before each turn, the current player and the current card in play will be displayed.
-- On your turn, choose which card to play with the associated number to the left of the card description or draw with "0"
-- When playing a wild card (wild or wild +4), choose a color to make the wild card usig the associated number to the left of the color when prompted. 
+- The game will choose a random player to go first.
+- Before each turn, the current player and card in play will be displayed.
+- On your turn, choose which card to play with the associated number to the left of the card description or draw with "0".
+- When playing a wild card (wild or wild +4), choose a color to make the wild card using the associated number to the left of the color when prompted. 
 - If you drew, your drawn card will be shown. You will be prompted to play the card you drew if possible. Answer using "Y" for yes or "N" for no (not case sensitive)
 - During your opponents' turns, you will see the card they played or if they drew followed by an updated number of how many cards are left in their hand.
-- If during a turn a card is played that forces another player to draw (+2, wild +4), the player who drew's total number of cards will be revealed.
+- If during a turn a card is played that forces another player to draw (+2 or wild +4), the player who drew's total number of cards will be revealed.
 - When a player (you or an opponent) gets to one card remaining, you will be prompted to type in "UNO" (not case sensative) as fast as you can. The amount of time you have varies depending on if you or your opponent has one card left.
