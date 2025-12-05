@@ -204,7 +204,7 @@ int TimedInput(char *buffer, size_t bufsize, DWORD timeOut, int curPlayer) {
     size_t pos = 0;
     buffer[0] = '\0';
 
-    printf("Player %d has one card left. Quickly type 'UNO' and hit the 'ENTER' key: ", curPlayer);
+    printf("Player %d has one card left. Quickly type 'UNO' and hit the 'ENTER' key: ", curPlayer+1);
     fflush(stdout);
 
     while (GetTickCount() - startTime < timeOut && pos < bufsize - 1) {
